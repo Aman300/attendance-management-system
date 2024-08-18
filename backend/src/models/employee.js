@@ -1,53 +1,100 @@
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Schema.Types.ObjectId;
 
-
-// Define User Schema
+// Define Employee Schema
 const schema = new mongoose.Schema(
   {
-    name:{
-      type: String,
-      trim: true,
-    },
-    phone_no:{
-      type: String,
-      trim: true,
-    },
-    email:{
-        type: String,
-        required: true,
-        trim: true
-    },
-    password:{
+    employeeId: {
       type: String,
       required: true,
-      trim: true
-  },
-    profile_img:{
-        type: String,
-        default: null,
-        trim: true,
+      unique: true,
+      trim: true,
     },
-    department:{
+    name: {
+      type: String,
+      trim: true,
+      required: true,
+    },
+    phone_no: {
+      type: String,
+      trim: true,
+      required: true,
+      unique: true,
+    },
+    email: {
+      type: String,
+      required: true,
+      trim: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    profile_img: {
+      type: String,
+      default: null,
+      trim: true,
+    },
+    department: {
       type: ObjectId,
       ref: "department",
+      required: true,
+    },
+    salary: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    joining_date: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    address: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    date_of_birth: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    emergency_contact: {
+      type: String,
+      required: true,
+      trim: true,
     },
     role: {
       type: String,
       enum: ["employee"],
       default: "employee",
+      required: true,
+    },
+    status: {
+      type: String,
+      enum: ["active", "inactive", "suspended"],
+      default: "active",
+      required: true,
+    },
+    createdBy: {
+      type: ObjectId,
+      ref: "admin",
+      required: true,
     },
     token: {
-        type: String,
-        default: ""
-    }
+      type: String,
+      default: "",
+    },
   },
   {
     timestamps: true,
   }
 );
 
-// Create User model
-const employee = mongoose.model("employee", schema);
+// Create Employee model
+const Employee = mongoose.model("employee", schema);
 
-module.exports = employee;
+module.exports = Employee;

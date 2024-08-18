@@ -1,12 +1,14 @@
 const express = require("express");
-const auth = require("./auth/auth");
 const adminAuth = require("./admin/auth");
 const adminDepartment = require("./admin/department");
+const adminEmployee = require("./admin/employee");
+const employeeAuth = require("./employee/auth");
 const router = express.Router();
 
-router.use("/auth", auth);
 router.use("/admin/auth", adminAuth);
 router.use("/admin", adminDepartment);
+router.use("/admin", adminEmployee);
+router.use("/employee/auth", employeeAuth);
 
 
 
