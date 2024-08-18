@@ -1,4 +1,5 @@
 const { errorResponse } = require("../../helper/error.response");
+const Attendance = require("../../models/attendance");
 const Employee = require("../../models/employee"); // Assuming the employee model is named 'employee'
 
 exports.createEmployee = async (req, res) => {
@@ -78,6 +79,44 @@ exports.getAllEmployees = async (req, res) => {
       return res.status(200).json({
         success: true,
         message: "Employees retrieved successfully",
+        data: employees,
+        pagination: {
+          currentPage: page,
+          totalPages: totalPages,
+          totalEmployees: totalEmployees,
+        },
+      });
+    } catch (e) {
+      return errorResponse(res, 500, false, e.message);
+    }
+  };
+
+
+exports.getTodayEmployeesAttendance = async (req, res) => {
+    try {
+      // Get page and limit from query parameters, with defaults
+      const page = parseInt(req.query.page) || 1;
+      const limit = parseInt(req.query.limit) || 10;
+  
+      // Calculate the skip value
+      const skip = (page - 1) * limit;
+  
+      // Fetch employees with pagination
+      const employees = await Attendance.find()
+        .populate("employee", "name email")
+        .skip(skip)
+        .limit(limit);
+  
+      // Count total number of employees
+      const totalEmployees = await Attendance.countDocuments();
+  
+      // Calculate total pages
+      const totalPages = Math.ceil(totalEmployees / limit);
+  
+      // Return paginated results
+      return res.status(200).json({
+        success: true,
+        message: "Employees Today Attendance retrieved successfully",
         data: employees,
         pagination: {
           currentPage: page,

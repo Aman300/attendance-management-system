@@ -10,6 +10,7 @@ import { createGameRoute, deleteGameRoute } from '../../utils/APIRoutes';
 import socket from "../../utils/Socket";
 import 'animate.css';
 import ReactApexChart from 'react-apexcharts';
+import Breadcrumb from '../../components/Breadcrumb';
 
 
 const validate = values => {
@@ -204,9 +205,18 @@ async function fetchOpenGame(){
       data: [11, 32, 45, 32, 34, 52, 41]
     }],);
 
+    const breadcrumbItems = [
+      { text: 'Dashboard', href: 'javascript:;' },
+      // { text: 'Settings', href: 'javascript:;' },
+      // { text: 'Profile', href: 'javascript:;' },
+    ];
+
 
   return (
     <>
+    <div className="p-5">
+      <Breadcrumb items={breadcrumbItems} />
+    </div>
     <div className='xl:grid xl:grid-cols-2 p-5 gap-4'>
       <div className='xl:mb-0 mb-5'>
         <div className='xl:flex xl:justify-between xl:gap-3 mb-1'>
@@ -298,6 +308,7 @@ async function fetchOpenGame(){
         </div>
       </div>
     </div>
+
     </>
   )
 }
