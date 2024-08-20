@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import OpenBattle from '../../components/OpenBattle';
 import RunningBattle from '../../components/RunningBattle';
-import { openGameRoute } from '../../utils/APIRoutes';
+import { baseUrl, openGameRoute } from '../../utils/APIRoutes';
 import useFetch from '../../hooks/useFetch';
 import axios from 'axios';
 import toast from 'react-hot-toast';
@@ -11,6 +11,12 @@ import socket from "../../utils/Socket";
 import 'animate.css';
 import ReactApexChart from 'react-apexcharts';
 import Breadcrumb from '../../components/Breadcrumb';
+import DashboardCard from '../../components/DashboardCard';
+import { BookOpenCheck, Contact, LayoutDashboard, ListCheck, ListTodo, MonitorCheckIcon, MonitorCog, NotebookTabs, Presentation, UserCheck2Icon, UserCircle2, UserMinus2Icon, UserPlus } from 'lucide-react';
+import Clock from '../../components/Clock';
+import Attendance from '../../components/Attendance';
+
+
 
 
 const validate = values => {
@@ -212,102 +218,233 @@ async function fetchOpenGame(){
     ];
 
 
+    const [dashboard, setDashboard] = useState([])
+
+
+   let dashboardData = [
+    {
+      title: "Total Employee",
+      total_no: 21,
+      icon: <UserPlus/>,
+      background:"blue"
+    },
+    {
+      title: "Present Employee",
+      total_no: 11,
+      icon: <UserCheck2Icon/>,
+      background:"blue"
+    },
+    {
+      title: "Employee On Leave",
+      total_no: 6,
+      icon: <UserMinus2Icon/>,
+      background:"blue"
+    },
+    {
+      title: "Active Employee",
+      total_no: 6,
+      icon: <UserCircle2/>,
+      background:"blue"
+    },
+    
+   ]
+
+  
+
+
+   const [employees, setEmployee] = useState([])
+
+   async function fetchDeparment() {
+    try {
+      // Send a request to the server to authenticate the user
+      const response = await axios.get(baseUrl + "/admin/get-today-employee-attendance");
+     
+      console.log(response.data)
+      setEmployee(response.data.data)
+    
+
+    } catch (error) {
+      // Handle any errors
+      console.error('Login failed:', error);
+      toast.error(error.response.data.message);
+    } finally {
+      // Reset the form's submitting state
+      setSubmitting(false);
+    }
+
+  }
+
+
+
+   useEffect(()=>{
+    fetchDeparment();
+    setDashboard(dashboardData)
+   },[])
+  
+
   return (
     <>
     <div className="p-5">
       <Breadcrumb items={breadcrumbItems} />
     </div>
-    <div className='xl:grid xl:grid-cols-2 p-5 gap-4'>
-      <div className='xl:mb-0 mb-5'>
-        <div className='xl:flex xl:justify-between xl:gap-3 mb-1'>
-          <div className='bg-white flex justify-around items-center w-full hover:shadow-2xl h-20 rounded-xl  cursor-pointer xl:mb-0 mb-3'>
-              <div className='flex justify-between items-center'>
-                <div className='bg-[#ebeffd] w-14 h-14 flex justify-center items-center rounded-xl mr-3'>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="size-5 text-blue-600">
-                      <path d="M10 12.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z" />
-                      <path fillRule="evenodd" d="M.664 10.59a1.651 1.651 0 0 1 0-1.186A10.004 10.004 0 0 1 10 3c4.257 0 7.893 2.66 9.336 6.41.147.381.146.804 0 1.186A10.004 10.004 0 0 1 10 17c-4.257 0-7.893-2.66-9.336-6.41ZM14 10a4 4 0 1 1-8 0 4 4 0 0 1 8 0Z" clipRule="evenodd" />
-                    </svg>
-                </div>
-                <div>
-                  <p className=' font-semibold'>3.456K</p>
-                  <p className='text-gray-400'>Total Views</p>
-                </div>
-              </div>
-              <div>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="size-5 text-blue-600">
-                    <path fillRule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
-                  </svg>
-              </div>          
-          </div>
-          <div className='bg-white flex justify-around items-center w-full hover:shadow-2xl h-20 rounded-xl  cursor-pointerxl:mb-0 mb-3'>
-              <div className='flex justify-between items-center'>
-                <div className='bg-[#ebeffd] w-14 h-14 flex justify-center items-center rounded-xl mr-3'>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="size-5 text-blue-600">
-                <path d="M1 1.75A.75.75 0 0 1 1.75 1h1.628a1.75 1.75 0 0 1 1.734 1.51L5.18 3a65.25 65.25 0 0 1 13.36 1.412.75.75 0 0 1 .58.875 48.645 48.645 0 0 1-1.618 6.2.75.75 0 0 1-.712.513H6a2.503 2.503 0 0 0-2.292 1.5H17.25a.75.75 0 0 1 0 1.5H2.76a.75.75 0 0 1-.748-.807 4.002 4.002 0 0 1 2.716-3.486L3.626 2.716a.25.25 0 0 0-.248-.216H1.75A.75.75 0 0 1 1 1.75ZM6 17.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0ZM15.5 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z" />
-              </svg>
-                </div>
-                <div>
-                  <p className=' font-semibold'>45.456K</p>
-                  <p className='text-gray-400'>Total Profit</p>
-                </div>
-              </div>
-              <div>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="size-5 text-blue-600">
-                    <path fillRule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
-                  </svg>
-              </div>          
-          </div>          
-        </div>
-        <div className='xl:flex xl:justify-between xl:gap-3 mb-4'>
-          <div className='bg-white flex justify-around items-center w-full hover:shadow-2xl h-20 rounded-xl  cursor-pointer xl:mb-0 mb-3'>
-              <div className='flex justify-between items-center'>
-                <div className='bg-[#ebeffd] w-14 h-14 flex justify-center items-center rounded-xl mr-3'>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="size-5 text-blue-600">
-                  <path fillRule="evenodd" d="M6 5v1H4.667a1.75 1.75 0 0 0-1.743 1.598l-.826 9.5A1.75 1.75 0 0 0 3.84 19H16.16a1.75 1.75 0 0 0 1.743-1.902l-.826-9.5A1.75 1.75 0 0 0 15.333 6H14V5a4 4 0 0 0-8 0Zm4-2.5A2.5 2.5 0 0 0 7.5 5v1h5V5A2.5 2.5 0 0 0 10 2.5ZM7.5 10a2.5 2.5 0 0 0 5 0V8.75a.75.75 0 0 1 1.5 0V10a4 4 0 0 1-8 0V8.75a.75.75 0 0 1 1.5 0V10Z" clipRule="evenodd" />
-                </svg>
-                </div>
-                <div>
-                  <p className=' font-semibold'>2.456</p>
-                  <p className='text-gray-400'>Total Product</p>
-                </div>
-              </div>
-              <div>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="size-5 text-blue-600">
-                    <path fillRule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
-                  </svg>
-              </div>          
-          </div>
-          <div className='bg-white flex justify-around items-center w-full hover:shadow-2xl h-20 rounded-xl  cursor-pointer'>
-              <div className='flex justify-between items-center'>
-                <div className='bg-[#ebeffd] w-14 h-14 flex justify-center items-center rounded-xl mr-3'>
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="size-5 text-blue-600">
-                    <path d="M7 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM14.5 9a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM1.615 16.428a1.224 1.224 0 0 1-.569-1.175 6.002 6.002 0 0 1 11.908 0c.058.467-.172.92-.57 1.174A9.953 9.953 0 0 1 7 18a9.953 9.953 0 0 1-5.385-1.572ZM14.5 16h-.106c.07-.297.088-.611.048-.933a7.47 7.47 0 0 0-1.588-3.755 4.502 4.502 0 0 1 5.874 2.636.818.818 0 0 1-.36.98A7.465 7.465 0 0 1 14.5 16Z" />
-                  </svg>
-                </div>
-                <div>
-                  <p className=' font-semibold'>3.456</p>
-                  <p className='text-gray-400'>Total Users</p>
-                </div>
-              </div>
-              <div>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="size-5 text-blue-600">
-                    <path fillRule="evenodd" d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z" clipRule="evenodd" />
-                  </svg>
-              </div>          
-          </div>
+
+
+    <div className='grid xl:grid-cols-4 grid-cols-1 gap-3 px-5 mb-4'>
+        {
+          dashboard.map((item, index)=>(
+            <>
+           <DashboardCard data={item}/>
+           {/* <div className='bg-gray-800 w-20 h-20'></div> */}
+              </>
+            
+               
+               
+             
+           
+          ))
+        }
+     
         </div>
 
-        <div className='bg-white shadow-2xl w-full rounded-xl p-2'>
-          <ReactApexChart options={options2} series={series2} type="area" height={350} />
+        <div className='flex justify-end items-center px-5'>
+          <Clock/>
         </div>
-      </div>
 
-      <div className='xl:mb-0 mb-5'>
+        
+        <div
+      className="hidden w-full lg:flex mt-8 lg:mt-0 item-center justify-between px-5 mb-4 "
+      id="navbar-with-form"
+    >
+      <form className="flex items-center max-lg:justify-center gap-0">
+        <div className="relative">
+          <input
+            type="search"
+            id="default-search"
+            className="block w-full max-w-xs px-4 py-2 text-sm font-normal shadow-xs text-gray-900 bg-white border border-gray-300 rounded-xl placeholder-gray-400 focus:outline-none leading-relaxed"
+            placeholder="Search... "
+            required=""
+          />
+        </div>
+        <button className="p-1 px-2" type="submit">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width={24}
+            height={24}
+            viewBox="0 0 24 24"
+            fill="none"
+          >
+            <path
+              d="M21 21L18.5 18.5M19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19C13.2006 19 15.1937 18.1115 16.6401 16.6736C18.0976 15.2246 19 13.2177 19 11Z"
+              stroke="black"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+            />
+          </svg>
+        </button>
+      </form>
+      <button
+      onClick={(e) => setModel(true)}
+      type="button"
+      className="py-2.5 pl-3.5 pr-6 text-sm bg-indigo-500 text-white rounded-xl cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 flex items-center hover:bg-indigo-700"
+    >
+      <svg
+       className="mr-1"
+       width={20}
+       height={10}
+      viewBox="0 0 10 10"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M1.22229 5.00019H8.77785M5.00007 8.77797V1.22241"
+        stroke="white"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      </svg>{" "}
+      Filter{" "}
+    </button>
+    </div> 
+        <div className="flex flex-col px-5">
+          <div className=" overflow-x-auto pb-4">
+              <div className="block">
+                <div className="overflow-x-auto w-full  border rounded-xl border-gray-300">
+                    <table className="w-full rounded-xl">
+                    <thead>
+                      <tr className="bg-gray-50">
+                        <th
+                          scope="col"
+                          className="p-5 text-left whitespace-nowrap text-sm leading-6 font-semibold text-gray-900 capitalize"
+                        >
+                          SNo.
+                        </th>
+                      
+                        <th
+                          scope="col"
+                          className="p-5 text-left whitespace-nowrap text-sm leading-6 font-semibold text-gray-900 capitalize"
+                        >
+                          Employee ID
+                        </th>
+                        <th
+                          scope="col"
+                          className="p-5 text-left whitespace-nowrap text-sm leading-6 font-semibold text-gray-900 capitalize"
+                        >
+                          Employee Name
+                        </th>
+                      
+                        <th
+                          scope="col"
+                          className="p-5 text-left whitespace-nowrap text-sm leading-6 font-semibold text-gray-900 capitalize min-w-[150px]"
+                        >
+                          Check In
+                        </th>
+                        <th
+                          scope="col"
+                          className="p-5 text-left whitespace-nowrap text-sm leading-6 font-semibold text-gray-900 capitalize min-w-[150px]"
+                        >
+                          Check out
+                        </th>
+                        <th
+                          scope="col"
+                          className="p-5 text-left whitespace-nowrap text-sm leading-6 font-semibold text-gray-900 capitalize min-w-[150px]"
+                        >
+                        Work hour
+                        </th>
+                        <th
+                          scope="col"
+                          className="p-5 text-left whitespace-nowrap text-sm leading-6 font-semibold text-gray-900 capitalize"
+                        >
+                          Status
+                        </th>
+                        
+                      </tr>
+                    </thead>
+                    {
+          employees.map((item)=>(
+            <>
+             <Attendance employee={item}/>
+            </>
+          ))
+        }
+                
+                  </table>
+                </div>
+              </div>
+            </div> 
+          </div>
+
+        
+      
+
+      {/* <div className='xl:mb-0 mb-5'>
         <div className='bg-white hover:shadow-2xl rounded-xl cursor-pointer p-2'>
           <ReactApexChart options={options} series={series} type="bar" height={350} />
         </div>
-      </div>
-    </div>
+      </div> */}
+
+
+  
 
     </>
   )
