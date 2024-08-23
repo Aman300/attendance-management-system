@@ -4,6 +4,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { baseUrl, loginRoute } from '../../utils/APIRoutes';
 import { useEffect } from 'react';
+import Clock from '../../components/Clock';
 
 const validate = values => {
   const errors = {};
@@ -110,6 +111,11 @@ function Login() {
             )}
         </button>
         </form>
+        <div className='w-full mt-6 text-center'>
+          <p className='mb-2'>Current time</p>
+          <Clock/>
+        </div>
+       
         </div>
       </div>
     </div>

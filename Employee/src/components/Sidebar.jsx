@@ -2,7 +2,25 @@
 import { useState, } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { BookOpenCheck, Contact, LayoutDashboard, ListCheck, ListTodo, MonitorCheckIcon, MonitorCog, NotebookTabs, Presentation, UserPlus } from 'lucide-react';
+import toast from 'react-hot-toast';
+import { useFormik } from 'formik';
+import { baseUrl } from '../utils/APIRoutes';
+import axios from 'axios';
 
+
+const validate = values => {
+  const errors = {};
+
+ 
+  if (!values.employeeId) {
+    errors.employeeId = 'Required';
+  } 
+  if (!values.password) {
+    errors.password = 'Required';
+  }
+
+  return errors;
+};
 
 
 const Sidebar = () => {
@@ -26,6 +44,7 @@ const Sidebar = () => {
   };
 
   let userId = JSON.parse(localStorage.getItem("user"))
+  const [isModel , setModel] = useState(false)
 
   let path = [
         {
@@ -58,6 +77,41 @@ const Sidebar = () => {
        
       ]
 
+
+      const formik = useFormik({
+        initialValues: {
+          employeeId: '',
+          password:'',
+        },
+        validate,
+        onSubmit: async (values, { setSubmitting }) => {
+          try {
+            // Send a request to the server to authenticate the user
+            const response = await axios.post(baseUrl + "/employee/auth/logout", {
+              employeeId: values.employeeId,
+              password: values.password,
+            });
+          
+            // Display success message
+            toast.success(response.data.message);
+    
+            setModel(false)
+
+            localStorage.removeItem('token')
+            window.location.href = '/'
+     
+          
+    
+          } catch (error) {
+            // Handle any errors
+            console.error('Login failed:', error);
+            toast.error(error.response.data.message);
+          } finally {
+            // Reset the form's submitting state
+            setSubmitting(false);
+          }
+        },
+      });
 
   return (
     <>
@@ -237,12 +291,12 @@ const Sidebar = () => {
               <div className="flex justify-center items-center mb-5">
 
                   <button
-                    onClick={logout}
-                    className="relative flex flex-row items-center h-11 focus:outline-none text-gray-600 bg-opacity-5 bg-white rounded-2xl pr-6"
+                    onClick={() => setModel(true)}
+                    className=" hover:text-white relative flex flex-row items-center h-11 focus:outline-none text-gray-600 bg-opacity-5 bg-white rounded-2xl pr-6"
                   >
-                    <span className="inline-flex justify-center items-center ml-4">
+                    <span className="inline-flex justify-center items-center ml-4 ">
                       <svg
-                        className="w-5 h-5"
+                        className="w-5 h-5 hover:text-white"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -256,7 +310,7 @@ const Sidebar = () => {
                         />
                       </svg>
                     </span>
-                    <span className="ml-2 text-sm tracking-wide truncate">Logout</span>
+                    <span className="ml-2 text-sm tracking-wide truncate hover:text-white">Logout</span>
                   </button>
 
                 </div>
@@ -266,6 +320,86 @@ const Sidebar = () => {
 
             
         </div>
+
+        {isModel ? (
+      <div className="w-full fixed top-0 left-0 z-[100] ">
+        <div
+          id="pd-slide-down-modal"
+          className="pd-overlay w-full h-full fixed top-0 left-0 z-[60] bg-black bg-opacity-50 flex justify-center items-start overflow-x-hidden overflow-y-auto"
+        >
+          <div className="transform -translate-y-3 ease-out sm:max-w-lg sm:w-full m-5 sm:mx-auto transition-all modal-open:translate-y-0 modal-open:opacity-100 modal-open:duration-500">
+            <div className="flex flex-col bg-white rounded-2xl py-4 px-5">
+              <div className="flex justify-between items-center pb-4 border-b border-gray-200">
+                <h4 className="text-sm text-gray-900 font-medium">Are you sure want to logout</h4>
+               
+                <button
+                  className="block cursor-pointer close-modal-button"
+                  data-pd-overlay="#pd-slide-down-modal"
+                  data-modal-target="pd-slide-down-modal"
+                  onClick={() => setModel(false)}
+                >
+                  <svg
+                    width={24}
+                    height={24}
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M7.75732 7.75739L16.2426 16.2427M16.2426 7.75739L7.75732 16.2427"
+                      stroke="black"
+                      strokeWidth="1.6"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                </button>
+              </div>
+              
+              <div className="overflow-y-auto min-h-[100px]">
+              
+              <form onSubmit={formik.handleSubmit}>
+            {/*  */}
+
+              <input id="employeeId" name='employeeId' onChange={formik.handleChange}
+              className={`w-full px-8 py-4 rounded-xl font-medium bg-white bg-opacity-5 border ${formik.errors.employeeId ? "border-red-500" : "border-gray-300"} placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 mt-5`}
+              type="text"
+              placeholder="Enter your employeeId id"
+              />
+              {/* {formik.errors.userPassword && <div className="text-red-500 ">{formik.errors.userPassword}</div>} */}
+
+          
+            
+
+              <input id="password" name='password' onChange={formik.handleChange}
+              className={`w-full px-8 py-4 rounded-xl font-medium bg-white bg-opacity-5 border ${formik.errors.password ? "border-red-500" : "border-gray-300"} placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 mt-5`}
+              type="password"
+              placeholder="Enter password"
+              />
+
+              {/* {formik.errors.password && <div className="text-red-500 ">{formik.errors.password}</div>} */}
+
+          
+          {/* Submit button */}
+        <button
+            type='submit'
+            className="mt-5 tracking-wide font-semibold bg-gray-700 text-gray-100 w-full py-4 rounded-xl hover:bg-gray-900 transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none"
+            disabled={formik.isSubmitting} // Disable the button while submitting
+        >
+            {formik.isSubmitting ? (
+                // Show loading spinner if submitting
+                <span>Loading...</span>
+            ) : (
+                // Show "Login" text if not submitting
+                <span>Logout</span>
+            )}
+        </button>
+        </form>
+              </div>          
+            </div>
+          </div>
+        </div>
+      </div>
+    ) : null}
 
 
         </>

@@ -19,7 +19,7 @@ const Clock = () => {
 
   return (
     <div className="flex items-end justify-center">
-    <div className="text-center bg-gray-900 text-white px-4 py-1 rounded-lg shadow-xl">
+    <div className="text-center bg-gray-600 text-white px-4 py-1 rounded-lg shadow-xl">
       <p className="text-xl font-mono">{formattedTime}</p>
     </div>
   </div>
