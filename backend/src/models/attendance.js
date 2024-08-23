@@ -25,6 +25,22 @@ const attendanceSchema = new mongoose.Schema(
       default: "present", // Default to "present" when logged in
       required: true,
     },
+    break_in:{
+      type: String, // Format: HH:mm
+      required: true,
+    },
+    break_out:{
+      type: String, // Format: HH:mm
+      required: true,
+    },
+    meeting_in:{
+      type: String, // Format: HH:mm
+      required: true,
+    },
+    meeting_out:{
+      type: String, // Format: HH:mm
+      required: true,
+    },
     check_in: {
       type: String, // Format: HH:mm
       required: true,
