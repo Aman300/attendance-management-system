@@ -33,29 +33,15 @@ const Sidebar = () => {
           path: "/",
           svgLogo: <LayoutDashboard/>
         },
-        {
-          name: "Add Department",
-          path: "/add/department",
-          svgLogo: <ListTodo/>
-        },
-        {
-          name: "Add Employee",
-          path: "/add/employee",
-          svgLogo: <UserPlus/>
-        },
-        {
-          name: "Employee List",
-          path: "/employee/list",
-          svgLogo: <Contact/>
-        },
+           
 
+        // {
+        //   name: "Today Attendance",
+        //   path: "/today/attendance",
+        //   svgLogo: <ListCheck/>
+        // },
         {
-          name: "Today Attendance",
-          path: "/today/attendance",
-          svgLogo: <ListCheck/>
-        },
-        {
-          name: "Attendance List",
+          name: "My Attendance List",
           path: "/attendance/list",
           svgLogo: <NotebookTabs/>
         },

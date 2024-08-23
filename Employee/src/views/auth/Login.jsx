@@ -9,11 +9,9 @@ const validate = values => {
   const errors = {};
 
  
-  if (!values.email) {
-    errors.email = 'Required';
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-    errors.email = 'Invalid email address';
-  }
+  if (!values.employeeId) {
+    errors.employeeId = 'Required';
+  } 
   if (!values.password) {
     errors.password = 'Required';
   }
@@ -24,15 +22,15 @@ function Login() {
   const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
-      email: '',
+      employeeId: '',
       password:'',
     },
     validate,
     onSubmit: async (values, { setSubmitting }) => {
       try {
         // Send a request to the server to authenticate the user
-        const response = await axios.post(baseUrl + "/admin/auth/login", {
-          email: values.email,
+        const response = await axios.post(baseUrl + "/employee/auth/login", {
+          employeeId: values.employeeId,
           password: values.password,
         });
 
@@ -78,10 +76,10 @@ function Login() {
         <form onSubmit={formik.handleSubmit}>
             {/*  */}
 
-              <input id="email" name='email' onChange={formik.handleChange}
-              className={`w-full px-8 py-4 rounded-xl font-medium bg-white bg-opacity-5 border ${formik.errors.email ? "border-red-500" : "border-gray-300"} placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 mt-5`}
-              type="email"
-              placeholder="Enter your email id"
+              <input id="employeeId" name='employeeId' onChange={formik.handleChange}
+              className={`w-full px-8 py-4 rounded-xl font-medium bg-white bg-opacity-5 border ${formik.errors.employeeId ? "border-red-500" : "border-gray-300"} placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 mt-5`}
+              type="text"
+              placeholder="Enter your employeeId id"
               />
               {/* {formik.errors.userPassword && <div className="text-red-500 ">{formik.errors.userPassword}</div>} */}
 

@@ -1,8 +1,9 @@
 import React from 'react';
+import Clock from './Clock';
 
 export default function Breadcrumb({ items }) {
   return (
-    <nav className="flex" aria-label="Breadcrumb">
+    <nav className="flex justify-between items-center" aria-label="Breadcrumb">
       <ol className="inline-flex items-center space-x-1 md:space-x-3">
         {items.map((item, index) => (
           <li key={index} className="inline-flex items-center">
@@ -37,6 +38,7 @@ export default function Breadcrumb({ items }) {
           </li>
         ))}
       </ol>
+      
     </nav>
   );
 }

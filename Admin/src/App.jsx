@@ -3,7 +3,6 @@ import { Routes, Route, BrowserRouter, Outlet } from 'react-router-dom';
 import Login from "./views/auth/Login";
 import Home from "./views/home/Home";
 import Sidebar from "./components/Sidebar";
-import Wallet from './views/home/Wallet';
 import ReferEarn from './views/home/AddEmployee';
 import Profile from './views/home/Profile';
 import Support from './views/home/Support';

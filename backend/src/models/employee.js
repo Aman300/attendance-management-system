@@ -82,7 +82,8 @@ const schema = new mongoose.Schema(
     createdBy: {
       type: ObjectId,
       ref: "admin",
-      required: true,
+      default:"66c08c43093bf48806cd8995"
+      // required: true,
     },
     token: {
       type: String,

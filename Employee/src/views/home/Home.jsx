@@ -143,25 +143,25 @@ async function fetchOpenGame(){
 
    let dashboardData = [
     {
-      title: "Total Employee",
+      title: "Total Persent",
       total_no: 21,
       icon: <UserPlus/>,
       background:"blue"
     },
     {
-      title: "Present Employee",
+      title: "Month Persent",
       total_no: 11,
       icon: <UserCheck2Icon/>,
       background:"blue"
     },
     {
-      title: "Employee On Leave",
+      title: "Total Leave",
       total_no: 6,
       icon: <UserMinus2Icon/>,
       background:"blue"
     },
     {
-      title: "Active Employee",
+      title: "Month Leave",
       total_no: 6,
       icon: <UserCircle2/>,
       background:"blue"
@@ -231,61 +231,6 @@ async function fetchOpenGame(){
         </div>
 
         
-        <div
-      className="hidden w-full lg:flex mt-8 lg:mt-0 item-center justify-between px-5 mb-4 "
-      id="navbar-with-form"
-    >
-      <form className="flex items-center max-lg:justify-center gap-0">
-        <div className="relative">
-          <input
-            type="search"
-            id="default-search"
-            className="block w-full max-w-xs px-4 py-2 text-sm font-normal shadow-xs text-gray-900 bg-white border border-gray-300 rounded-xl placeholder-gray-400 focus:outline-none leading-relaxed"
-            placeholder="Search... "
-            required=""
-          />
-        </div>
-        <button className="p-1 px-2" type="submit">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width={24}
-            height={24}
-            viewBox="0 0 24 24"
-            fill="none"
-          >
-            <path
-              d="M21 21L18.5 18.5M19 11C19 6.58172 15.4183 3 11 3C6.58172 3 3 6.58172 3 11C3 15.4183 6.58172 19 11 19C13.2006 19 15.1937 18.1115 16.6401 16.6736C18.0976 15.2246 19 13.2177 19 11Z"
-              stroke="black"
-              strokeWidth="1.6"
-              strokeLinecap="round"
-            />
-          </svg>
-        </button>
-      </form>
-      <button
-      onClick={(e) => setModel(true)}
-      type="button"
-      className="py-2.5 pl-3.5 pr-6 text-sm bg-indigo-500 text-white rounded-xl cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 flex items-center hover:bg-indigo-700"
-    >
-      <svg
-       className="mr-1"
-       width={20}
-       height={10}
-      viewBox="0 0 10 10"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M1.22229 5.00019H8.77785M5.00007 8.77797V1.22241"
-        stroke="white"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      </svg>{" "}
-      Filter{" "}
-    </button>
-    </div> 
         <div className="flex flex-col px-5">
           <div className=" overflow-x-auto pb-4">
               <div className="block">

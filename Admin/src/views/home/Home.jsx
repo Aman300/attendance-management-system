@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import OpenBattle from '../../components/OpenBattle';
-import RunningBattle from '../../components/RunningBattle';
 import { baseUrl, openGameRoute } from '../../utils/APIRoutes';
 import useFetch from '../../hooks/useFetch';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import { useFormik } from 'formik';
-import { createGameRoute, deleteGameRoute } from '../../utils/APIRoutes';
-import socket from "../../utils/Socket";
 import 'animate.css';
 import ReactApexChart from 'react-apexcharts';
 import Breadcrumb from '../../components/Breadcrumb';
@@ -18,198 +13,10 @@ import Attendance from '../../components/Attendance';
 
 
 
-
-const validate = values => {
-  const errors = {};
-
-  if (!values.amount) {
-    errors.amount = 'Required';
-  } 
-
-  return errors;
-};
-
-
 function Home() {
 
-  let userId = JSON.parse(localStorage.getItem("user"))
-
-  const [showModal, setShowModal] = useState(false);
-  const [data,setData] = useState([])
-
-async function fetchOpenGame(){
-  try{
-    let response = await axios.get(openGameRoute)
-    if(response.data.status){
-      setData(response.data.data) 
-    }
-  }catch(e){
-    console.log(e)
-  }
-}
 
   
-  const formik = useFormik({
-    initialValues: {
-      amount: '',
-    },
-    validate,
-    onSubmit: async (values, { setSubmitting }) => {
-      try {
-        // Send a request to the server to authenticate the user
-        const response = await axios.post(createGameRoute + `/${userId._id}`, {
-          amount: values.amount,
-        });
-
-        toast.success(response.data.message);
-        setShowModal(false)
-        socket.emit("send-message", {
-          room: 101
-        });
-
-      } catch (error) {
-        // Handle any errors
-        console.error('Login failed:', error);
-        toast.error(error.response.data.message);
-      } finally {
-        // Reset the form's submitting state
-        setSubmitting(false);
-      }
-    },
-  });
-
-
-
-  async function deleteGame(id){
-    try{
-      let response = await axios.delete(deleteGameRoute + `/${id}`,{
-      })
-
-      if(response.data.status){
-        toast.success(response.data.message);
-        socket.emit("send-message", {
-          room: 101
-        });
-      }
-
-    }catch(e){
-      console.log(e)
-      toast.success(e.response.data.message);
-    }
-  }
-
-
-
-  useEffect(() => {
-    // Emit join-room event when the socket connection is established
-    socket.emit("join-room", 101);
-    socket.emit("send-message", 
-      fetchOpenGame()
-    );
-
-    socket.on("receive-message", (data) => {
-      console.log(data)
-      setData(data)
-      //setChatMessages((prevMessages) => [...prevMessages, data]);
-    });
-
-    socket.on("disconnect", () => {
-      socket.emit("send-message", 
-      fetchOpenGame()
-    );
-    });
-
-    return () => {
-      // Unsubscribe from socket events here if needed
-      // Note: It's generally not necessary to manually disconnect the socket here,
-      // as it will be disconnected automatically when the component unmounts.
-    };
-  }, []);
-
-
-    // Define your chart options and series data
-    const [options, setOptions] = useState({
-      chart: {
-        type: 'bar',
-        height: 350
-      },
-      plotOptions: {
-        bar: {
-          horizontal: false,
-          columnWidth: '55%',
-          endingShape: 'rounded',
-          borderRadius: 3,
-        },
-      },
-      dataLabels: {
-        enabled: false
-      },
-      stroke: {
-        show: true,
-        width: 2,
-        colors: ['transparent']
-      },
-      xaxis: {
-        categories: ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct'],
-      },
-      // yaxis: {
-      //   title: {
-      //     text: '$ (thousands)'
-      //   }
-      // },
-      fill: {
-        opacity: 1
-      },
-      tooltip: {
-        y: {
-          formatter: function (val) {
-            return "$ " + val + " thousands"
-          }
-        }
-      }
-    });
-  
-    const [series, setSeries] = useState([{
-      name: 'Net Profit',
-      data: [44, 55, 57, 56, 61, 58, 63, 60, 66]
-    }, {
-      name: 'Revenue',
-      data: [76, 85, 101, 98, 87, 105, 91, 114, 94]
-    }, {
-      name: 'Free Cash Flow',
-      data: [35, 41, 36, 26, 45, 48, 52, 53, 41]
-    }]);
-
-
-    const [options2, setOptions2] = useState({
-      chart: {
-        height: 350,
-        type: 'area'
-      },
-      dataLabels: {
-        enabled: false
-      },
-      stroke: {
-        curve: 'smooth'
-      },
-      xaxis: {
-        type: 'datetime',
-        categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
-      },
-      tooltip: {
-        x: {
-          format: 'dd/MM/yy HH:mm'
-        },
-      },
-    })
-
-    const [series2, setSeries2] = useState([{
-      name: 'series1',
-      data: [31, 40, 28, 51, 42, 109, 100]
-    }, {
-      name: 'series2',
-      data: [11, 32, 45, 32, 34, 52, 41]
-    }],);
 
     const breadcrumbItems = [
       { text: 'Dashboard', href: 'javascript:;' },
@@ -269,7 +76,6 @@ async function fetchOpenGame(){
       toast.error(error.response.data.message);
     } finally {
       // Reset the form's submitting state
-      setSubmitting(false);
     }
 
   }
@@ -293,7 +99,7 @@ async function fetchOpenGame(){
         {
           dashboard.map((item, index)=>(
             <>
-           <DashboardCard data={item}/>
+           <DashboardCard key={index} data={item}/>
            {/* <div className='bg-gray-800 w-20 h-20'></div> */}
               </>
             

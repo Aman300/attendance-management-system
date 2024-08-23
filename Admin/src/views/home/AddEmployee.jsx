@@ -2,6 +2,9 @@ import React, { useState } from 'react'
 import Breadcrumb from '../../components/Breadcrumb';
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import axios from 'axios';
+import { baseUrl } from '../../utils/APIRoutes';
+import toast from 'react-hot-toast';
 
 const validationSchema = Yup.object({
   name: Yup.string().required("Name is required"),
@@ -25,7 +28,7 @@ const validationSchema = Yup.object({
     .required("Emergency contact is required"),
   role: Yup.string().required("Role is required"),
   status: Yup.string().oneOf(["active", "inactive"], "Invalid status").required("Status is required"),
-  token: Yup.string().required("Token is required")
+  // token: Yup.string().required("Token is required")
 });
 
 function  AddEmployee() {
@@ -53,11 +56,24 @@ function  AddEmployee() {
       status: "",
     },
     validationSchema: validationSchema,
-    onSubmit: values => {
-      console.log("Form data", values);
-      // Handle form submission here
-    }
+    onSubmit: async (values, { setSubmitting }) => {
+      try {
+        // Send a request to the server to create the employee
+        const response = await axios.post(baseUrl + "/admin/create-employee", values);
+        
+        // Display success message
+        toast.success(response.data.message);
+      } catch (error) {
+        // Handle any errors
+        console.error('Employee creation failed:', error);
+        toast.error(error.response?.data?.message || "An error occurred");
+      } finally {
+        // Reset the form's submitting state
+        setSubmitting(false);
+      }
+    },
   });
+  
 
   return (
     <>
