@@ -11,6 +11,7 @@ import DashboardCard from '../../components/DashboardCard';
 import { BookOpenCheck, Contact, LayoutDashboard, ListCheck, ListTodo, MonitorCheckIcon, MonitorCog, NotebookTabs, Presentation, UserCheck2Icon, UserCircle2, UserMinus2Icon, UserPlus } from 'lucide-react';
 import Clock from '../../components/Clock';
 import Attendance from '../../components/Attendance';
+import ClockGraph from '../../components/ClockGraph';
 
 
 
@@ -226,9 +227,7 @@ async function fetchOpenGame(){
      
         </div>
 
-        <div className='flex justify-end items-center px-5'>
-          <Clock/>
-        </div>
+      
 
         
         <div className="flex flex-col px-5">
@@ -298,6 +297,10 @@ async function fetchOpenGame(){
               </div>
             </div> 
           </div>
+
+          <div className='flex justify-center items-center'>
+          <ClockGraph/>
+        </div>
 
         
       

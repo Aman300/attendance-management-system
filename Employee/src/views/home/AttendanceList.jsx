@@ -13,32 +13,7 @@ function  AttendanceList() {
     <div className="p-5">
       <Breadcrumb items={breadcrumbItems} />
     </div>
-    <div className="flex justify-end items-center mb-4 px-5">
-    <button
-      onClick={(e) => setModel(true)}
-      type="button"
-      className="py-2.5 pl-3.5 pr-6 text-sm bg-indigo-500 text-white rounded-full cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 flex items-center hover:bg-indigo-700"
-    >
-      <svg
-       className="mr-1"
-       width={20}
-       height={10}
-      viewBox="0 0 10 10"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M1.22229 5.00019H8.77785M5.00007 8.77797V1.22241"
-        stroke="white"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      </svg>{" "}
-      Add Employee{" "}
-    </button>
-
-    </div>   
+      
 
     <div className="flex flex-col px-5">
       <div className=" overflow-x-auto pb-4">

@@ -7,6 +7,7 @@ import PrivateRoutes from './utils/PrivateRoutes';
 import AttendanceList from './views/home/AttendanceList';
 import Notice from './views/home/Notice';
 import Setting from './views/home/Setting';
+import WorkTimeTraker from './views/home/WorkTimeTraker';
 
 export default function App() {
 
@@ -35,6 +36,7 @@ export default function App() {
             }
           >
             <Route path="/" element={<Home />} />   
+            <Route path="/Work/Time/Tracker" element={<WorkTimeTraker />} />   
             <Route path="/attendance/list" element={<AttendanceList />} />
             <Route path="/notice" element={<Notice />} />
             <Route path="/settings" element={<Setting />} />

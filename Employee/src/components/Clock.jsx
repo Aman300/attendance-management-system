@@ -18,9 +18,9 @@ const Clock = () => {
   const formattedTime = time.toLocaleTimeString();
 
   return (
-    <div className="flex items-center justify-center fixed bottom-5">
-    <div className="text-center bg-gray-900 text-white p-6 rounded-lg shadow-lg">
-      <p className="text-5xl font-mono">{formattedTime}</p>
+    <div className="flex items-end justify-center">
+    <div className="text-center bg-gray-900 text-white px-4 py-1 rounded-lg shadow-xl">
+      <p className="text-xl font-mono">{formattedTime}</p>
     </div>
   </div>
   );

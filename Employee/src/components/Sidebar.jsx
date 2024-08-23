@@ -35,11 +35,11 @@ const Sidebar = () => {
         },
            
 
-        // {
-        //   name: "Today Attendance",
-        //   path: "/today/attendance",
-        //   svgLogo: <ListCheck/>
-        // },
+        {
+          name: "Work Time Tracker",
+          path: "/Work/Time/Tracker",
+          svgLogo: <ListCheck/>
+        },
         {
           name: "My Attendance List",
           path: "/attendance/list",
@@ -238,7 +238,7 @@ const Sidebar = () => {
 
                   <button
                     onClick={logout}
-                    className="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-50 text-gray-600 hover:text-blue-700 rounded-2xl pr-6"
+                    className="relative flex flex-row items-center h-11 focus:outline-none text-gray-600 bg-opacity-5 bg-white rounded-2xl pr-6"
                   >
                     <span className="inline-flex justify-center items-center ml-4">
                       <svg
