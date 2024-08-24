@@ -35,7 +35,14 @@ app.use(express.static(__dirname + "/public"));
 
 app.use("/api/v1", router);
 
-const port = process.env.PORT || 3000;
+app.use("*", async (req, res) => {
+  let time = new Date();
+  let Data = `${time}`;
+  res.status(404).json({ status: false, message: "Page not found", Data });
+});
+
+
+const port = process.env.PORT || 3000
 const server = http.createServer(app); // Create server instance
 
 // Pass server instance to socket controller
